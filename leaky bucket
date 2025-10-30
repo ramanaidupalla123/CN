@@ -1,0 +1,51 @@
+#include <stdio.h>
+
+int main() {
+    int cap, rate, n, i;
+    int in[50], buck = 0;
+
+    printf("Enter bucket capacity: ");
+    scanf("%d", &cap);
+    printf("Enter output rate: ");
+    scanf("%d", &rate);
+    printf("Enter number of time intervals: ");
+    scanf("%d", &n);
+
+    printf("Enter packets at each interval:\n");
+    for(i = 0; i < n; i++)
+        scanf("%d", &in[i]);
+
+    printf("\nTime\tIn\tSent\tLeft\tDrop\n");
+
+    for(i = 0; i < n; i++) {
+        int drop = 0;
+        printf("%d\t%d\t", i+1, in[i]);
+
+        if(in[i] + buck > cap) {  
+            drop = (in[i] + buck) - cap;  
+            buck = cap;  
+        } else {
+            buck += in[i];
+        }
+
+        int sent = (buck >= rate) ? rate : buck;  
+        buck -= sent;  
+
+        printf("%d\t%d\t%d\n", sent, buck, drop);
+    }
+
+    return 0;
+}
+out put :
+Enter bucket capacity: 10
+Enter output rate: 5
+Enter number of time intervals: 4
+Enter packets at each interval:
+6 7 2 8
+
+Time    In      Sent    Left    Drop
+1       6       5       1       0
+2       7       5       3       0
+3       2       5       0       0
+4       8       5       3       1
+
